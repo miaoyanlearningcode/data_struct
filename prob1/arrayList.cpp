@@ -1,6 +1,25 @@
 #include "arrayList.h"
 
 template <class elemType>
+cosnt arrayListType<elemType>& arrayListType<elemType>::operator=
+						(const arrayListType<elemType>& otherList)
+{
+	if (this != &otherList)
+	{
+		delete [] list;
+		maxSize = otherList.maxSize;
+		length = otherList.length;
+
+		list = new elemType[maxSize];
+		assert(list != NULL);
+
+		for (int i = 0; i < length; i++)
+			list[i] = otherList.list[i];
+	}
+	return *this;
+}
+
+template <class elemType>
 bool arrayListType<elemType>::isEmpty() const
 {
 	return (length == 0);
@@ -110,6 +129,64 @@ void arrayListType<elemType>::clearList()
 }
 
 template <class elemType>
+int arrayListType<elemType>::seqSearch(const elemType& item) const
+{
+	int loc;
+	bool found = false;
+
+	for(loc = 0; loc < lenght; loc++)
+	{
+		if (list[loc] == item)
+		{
+			found = true;
+			break;
+		}
+	}
+	if(found)
+		return loc;
+	else 
+		return -1;
+}
+
+template <class elemType>
+void arrayListType<elemType>::insert(const elemType& insertItem)
+{
+	int loc;
+
+	if (length == 0)
+		list[length++] = insertItem;
+	else if (length == maxSize)
+		cerr << "Cannot insert in a full list. " << endl;
+	else
+	{
+		loc = seqSearch(insertItem);
+
+		if (loc == -1)
+			list[length++] = insertItem;
+		else
+			cerr << "the item to be inserted is already in the list. No duplicated are allowed" << endl;
+	}
+}
+
+template <class elemType>
+void arrayListType<elemType>::remove(const elemType& removeItem)
+{
+	int loc;
+
+	if (length == 0)
+		cerr << "Cannot delete from an empty list. " << endl;
+	else
+	{
+		loc = seqSearch(removeItem);
+
+		if(loc != -1)
+			removeAt(loc);
+		else
+			cout << "the item to be deleted is not in the list. " << endl;
+	}
+}
+
+template <class elemType>
 arrayListType<elemType>::arrayListType(int size)
 {
 	if (size < 0)
@@ -125,6 +202,18 @@ arrayListType<elemType>::arrayListType(int size)
 	list = new elemType[maxSize];
 	assert(list != NULL);
 }//constructor
+
+template <class elemType>
+arrayListType<elemType>::arrayListType(const arrayListType<elemType>& otherList)
+{
+	maxSize = otherList.maxSize;
+	length = otherList.length;
+	list = new elemType[maxSize];
+	assert(list != NULL);
+
+	for(int j = 0; j < length; j++)
+		list[j] = otherList.list[j];
+}//copy constructor;
 
 template<class elemType>
 arrayListType<elemType>::~arrayListType()
