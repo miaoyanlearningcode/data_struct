@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <cmath>
 #include "../prob1/arrayList.h"
 using namespace std;
 
@@ -102,3 +102,45 @@ int polynomialType::max(int x, int y) const
 		return y;
 }
 
+ostream& operator << (ostream& os, const polynomialType& p)
+{
+	int indexFirstNonzeroCoeff = 0;
+
+	for (int i = 0; i < p.length; i++)
+		if (p.list[i] != 0.0)
+		{
+			indexFirstNonzeroCoeff = i;
+			break;
+		}
+
+	if (indexFirstNonzeroCoeff < p.length)
+	{
+		if (indexFirstNonzeroCoeff == 0)
+			os << p.list[indexFirstNonzeroCoeff] << " ";
+		else
+			os << p.list[indexFirstNonzeroCoeff] << "x^" << indexFirstNonzeroCoeff << " ";
+
+		for (int i = indexFirstNonzeroCoeff + 1; i < p.length; i++)
+		{
+			if (p.list[i] != 0.0)
+				if (p.list[i] >= 0.0)
+					os << "+ " << p.list[i] << "x^" << i << " ";
+				else
+					os << "- " << -p.list[i] << "x^" << i << " ";
+		}
+	}
+	else
+		os << "0";
+	return os;
+}
+
+istream& operator>>(istream& is, polynomialType& p)
+{
+	cout << "The degree of this polynomial is: " << p.length - 1 << endl;
+	for (int i = 0; i < p.length; i++)
+	{
+		cout << "Enter the coefficient of x^" << i << ": ";
+		is >> p.list[i];
+	}
+	return is;
+}
