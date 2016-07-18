@@ -23,7 +23,7 @@ int main()
 
 	cout << intList.size() << endl;
 	//intList.insert(3,45);
-	intList.resize(9,3);
+	//intList.resize(9,3);
 	cout << intList.size() << endl;
 
 	vector<int>::iterator intVecIter;
@@ -31,6 +31,8 @@ int main()
 		cout << *intVecIter << " ";
 
 	cout << endl;
+
+	cout << *(intList.rend() + 2) << endl;
 
 	return 0;
 }
