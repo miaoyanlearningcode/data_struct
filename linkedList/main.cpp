@@ -121,6 +121,7 @@ int main()
 		cin.get(ch);
 		cout << endl;	
 	}
+	return 0;
 }
 
 void createVideoList(ifstream& infile, videoListType& videoList)
