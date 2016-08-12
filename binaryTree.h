@@ -52,7 +52,7 @@ private:
 
 	int max(int x, int y) const;
 
-	int nodeCOunt(binaryTreeNode<elemType>* p) const;
+	int nodeCount(binaryTreeNode<elemType>* p) const;
 
 	int leavesCount(binaryTreeNode<elemType>* p) const;
 
@@ -64,25 +64,50 @@ bool binaryTreeType<elemType>::isEmpty() const
 	return (root==NULL);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+template <class elemType>
+binaryTreeType<elemType>::binaryTreeType()
+{
+	root = NULL;
+}
 
 template <class elemType>
-int height(binaryTreeNode<elemType> *p) const
+void binaryTreeType<elemType>::inorderTraversal() const
+{
+	inorder(root);
+}
+
+template <class elemType>
+void binaryTreeType<elemType>::preorderTraversal() const
+{
+	preorder(root);
+}
+
+template <class elemType>
+void binaryTreeType<elemType>::postorderTraversal() const
+{
+	postorder(root);
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::treeHeight() const
+{
+	return height(root);
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::treeNodeCount() const
+{
+	return nodeCount(root);
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::treeLeavesCount() const
+{
+	return leavesCount(root);
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::height(binaryTreeNode<elemType> *p) const
 {
 	if (p = NULL) return 0;
 	else
@@ -90,7 +115,7 @@ int height(binaryTreeNode<elemType> *p) const
 }
 
 template <class elemType>
-void copyTree(binaryTreeNode<elemType>* &copiedTreeRoot, binaryTreeNode<elemType>* otherTreeRot)
+void binaryTreeType<elemType>::copyTree(binaryTreeNode<elemType>* &copiedTreeRoot, binaryTreeNode<elemType>* otherTreeRot)
 {
 	if (otherTreeRot == NULL)
 		copiedTreeRoot = NULL;
@@ -104,7 +129,7 @@ void copyTree(binaryTreeNode<elemType>* &copiedTreeRoot, binaryTreeNode<elemType
 }
 
 template <class elemType>
-void inorder(binaryTreeNode<elemType> *p) const
+void binaryTreeType<elemType>::inorder(binaryTreeNode<elemType> *p) const
 {
 	if (p != NULL)
 	{
@@ -115,7 +140,7 @@ void inorder(binaryTreeNode<elemType> *p) const
 }
 
 template <class elemType>
-void preorder(binaryTreeNode<elemType> *p) const
+void binaryTreeType<elemType>::preorder(binaryTreeNode<elemType> *p) const
 {
 	if (p != NULL)
 	{
@@ -126,7 +151,7 @@ void preorder(binaryTreeNode<elemType> *p) const
 }
 
 template <class elemType>
-void postorder(binaryTreeNode<elemType> *p) const
+void binaryTreeType<elemType>::postorder(binaryTreeNode<elemType> *p) const
 {
 	if(p != NULL)
 	{
@@ -134,4 +159,66 @@ void postorder(binaryTreeNode<elemType> *p) const
 		postorder(p->rlink);
 		cout << p->info << " ";
 	}
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::max(int x, int y) const
+{
+	if (x >= y) 
+		return x;
+	else
+		return y;
+}
+
+template <class elemType>
+int binaryTreeType<elemType>::nodeCount(binaryTreeNode<elemType> *p) const
+{
+	if (p = NULL)
+		return 0;
+	else
+		return (1 + nodeCount(p->llink) + nodeCount(p->rlink));
+}
+
+template <class elemType>
+itn binaryTreeType<elemType>::leavesCount(binaryTreeNode<elemType>* p) const
+{
+	if (p == NULL)
+		return 0;
+	else if ((p->llink == NULL) && (p->rlink == NULL))
+		return 1;
+	else
+		return (leavesCount(p->llink) + leavesCount(p->rlink));
+}
+
+template <class elemType>
+void binaryTreeType<elemType>::destory(binaryTreeNode<elemType>* &p)
+{
+	if (p != NULL)
+	{
+		destory(p->llink);
+		destory(p->rlink);
+		delete p;
+		p = NULL;
+	}
+}
+
+template <class elemType>
+void binaryTreeType<elemType>::destoryTree()
+{
+	destory(root);
+}
+
+template <class elemType>
+binaryTreeType<elemType>::binaryTreeType(const binaryTreeType<elemType>& otherTree)
+{
+	if(otherTree.root == NULL)
+		root = NULL;
+	else
+		copyTree(root, otherTree.root);
+}
+
+template <class elemType>
+binaryTreeType<elemType>::~binaryTreeType()
+{
+	destoryTree();
 }
