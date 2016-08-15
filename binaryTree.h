@@ -222,3 +222,20 @@ binaryTreeType<elemType>::~binaryTreeType()
 {
 	destoryTree();
 }
+
+template <class elemType>
+const binaryTreeType<elemType>& binaryTreeType<elemType>::operator=(const binaryTreeType<elemType>& otherTree)
+{
+	if (this != &otherTree)
+	{
+		if (root != NULL)
+			destory(root);
+
+		if (otherTree.root == NULL)
+			root = NULL;
+		else
+			copyTree(root, otherTree.root);
+	}
+
+	return *this;
+}
