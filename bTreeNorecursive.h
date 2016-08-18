@@ -46,3 +46,9 @@ void binaryTreeType<elemType>::nonRecursivePreTraversal() const
 	}
 	cout << endl;
 }
+
+template<class elemType>
+void binaryTreeType<elemType>::nonRecursivePosTraversal() const
+{
+	
+}
