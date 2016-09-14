@@ -98,3 +98,86 @@ void bTree<recType, bTreeOrder>::insert (const recType& insertItem)
 		root = tempRoot;
 	}
 }
+
+template <class recType, int bTreeOrder>
+void bTree<recType, bTreeOrder>::insertBTree(bTreeNode<recType, bTreeOrder> *current, 
+										recType& insertItem, recType & median, bTreeNode<recType, bTreeOrder>& *rightChild, bool &isTaller)
+{
+
+}
+
+template <class recType, int bTreeOrder>
+void bTree<recType, bTreeOrder>::insertNode(bTreeNode<recType, bTreeOrder> * current,
+											const recType& insertItem,
+											bTreeNode<recType, bTreeOrder>* &rightChild,
+											int insertPosition)
+{
+	int index;
+
+	for (index = current->recCount; index > insertPosition; index--)
+	{
+		current->list[index] = current->list[index - 1];
+		current->children[index + 1] = current->children[index];
+	}
+
+	current->list[index] = insertItem;
+	current->children[index + 1] = rightChild;
+	current->recCount++;
+}
+
+template <class recType, int bTreeOrder?
+void bTree<recType, bTreeOrder>::splitNode
+					(bTreeNode<recType, bTreeNode> *current, 
+					const recType& insertItem,
+					bTreeNode<recType, bTreeOrder>* rightChild,
+					int insertPosition,
+					bTreeNode<recType, bTreeOrder>* &rightNode,
+					recType &median)
+{
+	rightNode = new bTreeNode<recType, bTreeOrder>;
+
+	int mid = (bTreeOrder - 1) / 2;
+
+	if (insertPosition <= mid)
+	{
+		int index = 0;
+		int i = mid;
+
+		while (i < bTreeOrder - 1)
+		{
+			rightNode->list[index] = current->list[i];
+			rightNode->children[index + 1] = current->children[i + 1];
+			index++;
+			i++;
+		}
+
+		current->recCount = mid;
+		insertNode(current, insertItem, rightChild, insertPosition);
+		(current->recCount)--;
+
+		median = current->list[current->recCount];
+
+		rightNode->recCount = index;
+		rightNode->children[0] = current->children[current->recCount + 1];
+	}
+	else
+	{
+		int i = mid + 1;
+		index = 0;
+
+		while (i < bTreeOrder - 1)
+		{
+			rightNode->list[0] = current->list[i];
+			rightNode->children[index + 1] = current->children[i + 1];
+			index++;
+			i++;
+		}
+
+		current->recCount = mid;
+		rightNode->recCount = index;
+
+		median = current->list[mid];
+		insertNode(rightNode, insertItem, rightChild, insertPosition - mid - 1);
+		rightNode->children[0] = current->children[current->recCount + 1];
+	}
+}
